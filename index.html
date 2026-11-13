@@ -3,232 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#10110f">
-    <title>GANGSTAR | Barbearia</title>
+    <title>GANGSTAR</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="site-header">
-        <a class="brand" href="index.html" aria-label="GANGSTAR - início">
-            <span class="brand-mark" aria-hidden="true">G</span>
-            <span>GANG<span>STAR</span></span>
-        </a>
-        <nav aria-label="Navegação principal">
-            <a href="#equipe">Nossa equipe</a>
-            <a href="#servicos">Serviços</a>
-            <a class="nav-cta" href="#agendamento">Agendar horário <span aria-hidden="true">↗</span></a>
-        </nav>
+
+    <header>
+        <h1>GANGSTAR</h1>
+        <p>Estilo, tradição e navalha afiada desde 2010</p>
     </header>
 
     <main>
-        <section class="hero" aria-labelledby="hero-title">
-            <div class="hero-content">
-                <p class="eyebrow"><span></span> DESDE 2010 • ESTILO SEM PRESSA</p>
-                <h1 id="hero-title">Seu estilo.<br><em>Suas regras.</em></h1>
-                <p class="hero-copy">Mais do que um corte: um momento só seu. Escolha seu barbeiro e venha renovar o visual.</p>
-                <a class="button button-primary" href="#agendamento">Encontrar meu horário <span aria-hidden="true">→</span></a>
-                <div class="hero-note"><span class="note-stars" aria-hidden="true">★★★★★</span><span>Experiência de barbearia feita para você</span></div>
-            </div>
-            <div class="hero-stamp" aria-label="Tradição e atitude">
-                <span>TRADIÇÃO</span><b>✳</b><span>ATITUDE</span>
-            </div>
-            <a class="scroll-cue" href="#equipe"><span aria-hidden="true">↓</span> DESCUBRA A GANGSTAR</a>
+        
+        <section>
+            <h2>Reserve seu Horário</h2>
+            <p>Escolha o seu profissional de preferência, o estilo que mais combina com você e o melhor momento para dar aquele tapa no visual.</p>
         </section>
 
-        <section class="team-section content-section" id="equipe">
-            <div class="section-heading">
+        <!-- Informações de Barbeiros e Estilos -->
+        <section>
+            <div>
+                <h3>Nossos Especialistas</h3>
+                <p style="font-size: 0.85rem; margin-bottom: 10px; color: var(--text-gray); font-style: italic;">Clique no nome para conhecer o perfil do profissional</p>
+                <ul>
+                    <li><a href="Carlos.html">Carlos</a> (Especialista em degradê);</li>
+                    <li><a href="Marcos.html">Marcos</a> (Especialista em cortes clássicos);</li>
+                    <li><a href="rafael.html">Rafael</a> (Cortes Modernos / Freestyles);</li>
+                    <li><a href="lucas.html">Lucas</a> (Especialista em Tesoura).</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Estilos & Serviços</h3>
+                <ul>
+                    <li>Corte Degradê / Fade - R$ 25,00</li>
+                    <li>Social Clássico - R$ 20,00</li>
+                    <li>Pompadour / Razor Part - R$ 35,00</li>
+                    <li>Barba Completa (Navalha) - R$ 15,00</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Formulário de Agendamento -->
+        <section>
+            <h2>Formulário de Agendamento</h2>
+            <form>
+                
                 <div>
-                    <p class="eyebrow"><span></span> QUEM VAI CUIDAR DO SEU VISUAL</p>
-                    <h2>Encontre seu <em>barbeiro</em></h2>
+                    <label for="clientName">Seu Nome</label>
+                    <input type="text" id="clientName" placeholder="Ex: Ratão Júnior" required>
                 </div>
-                <p class="section-aside">Toque no cartão para selecionar.<br>O perfil de cada profissional está logo abaixo.</p>
-            </div>
 
-            <div class="barber-grid">
-                <article class="barber-card">
-                    <button class="barber-select" type="button" data-barber="Carlos" aria-pressed="false" aria-label="Selecionar Carlos, especialista em degradê">
-                        <span class="barber-photo-wrap">
-                            <img src="photos/carlos.jpg" alt="Carlos Magno" class="barber-photo">
-                            <span class="select-icon" aria-hidden="true">✓</span>
-                            <span class="barber-number">01</span>
-                        </span>
-                        <span class="barber-info"><span class="barber-name">Carlos Magno</span><span class="barber-specialty">Degradê & acabamento</span></span>
-                    </button>
-                    <a class="profile-link" href="carlos.html">Conhecer <span aria-hidden="true">↗</span></a>
-                </article>
-                <article class="barber-card">
-                    <button class="barber-select" type="button" data-barber="Marcos" aria-pressed="false" aria-label="Selecionar Marcos, especialista em cortes clássicos">
-                        <span class="barber-photo-wrap">
-                            <img src="photos/marcos.jpg" alt="Marcos Mota" class="barber-photo">
-                            <span class="select-icon" aria-hidden="true">✓</span>
-                            <span class="barber-number">02</span>
-                        </span>
-                        <span class="barber-info"><span class="barber-name">Marcos Mota</span><span class="barber-specialty">Cortes clássicos</span></span>
-                    </button>
-                    <a class="profile-link" href="marcos.html">Conhecer <span aria-hidden="true">↗</span></a>
-                </article>
-                <article class="barber-card">
-                    <button class="barber-select" type="button" data-barber="Rafael" aria-pressed="false" aria-label="Selecionar Rafael, especialista em cortes modernos e freestyle">
-                        <span class="barber-photo-wrap">
-                            <img src="photos/rafael.jpg" alt="Rafael Da Vinci" class="barber-photo">
-                            <span class="select-icon" aria-hidden="true">✓</span>
-                            <span class="barber-number">03</span>
-                        </span>
-                        <span class="barber-info"><span class="barber-name">Rafael Da Vinci</span><span class="barber-specialty">Moderno & freestyle</span></span>
-                    </button>
-                    <a class="profile-link" href="rafael.html">Conhecer <span aria-hidden="true">↗</span></a>
-                </article>
-                <article class="barber-card">
-                    <button class="barber-select" type="button" data-barber="Lucas" aria-pressed="false" aria-label="Selecionar Lucas, especialista em tesoura">
-                        <span class="barber-photo-wrap">
-                            <img src="photos/lucas.jpg" alt="Lucas Cordeiro" class="barber-photo">
-                            <span class="select-icon" aria-hidden="true">✓</span>
-                            <span class="barber-number">04</span>
-                        </span>
-                        <span class="barber-info"><span class="barber-name">Lucas Cordeiro</span><span class="barber-specialty">Tesoura & precisão</span></span>
-                    </button>
-                    <a class="profile-link" href="lucas.html">Conhecer <span aria-hidden="true">↗</span></a>
-                </article>
-            </div>
-            <p class="selection-hint" id="barberSelectionHint" aria-live="polite">Selecione um barbeiro para começar seu agendamento.</p>
-        </section>
-
-        <section class="services-section content-section" id="servicos">
-            <div class="section-heading">
                 <div>
-                    <p class="eyebrow"><span></span> NOSSA CARTA DE SERVIÇOS</p>
-                    <h2>Escolha seu <em>corte</em></h2>
+                    <label for="clientPhone">WhatsApp / Telefone</label>
+                    <input type="tel" id="clientPhone" placeholder="Ex: (11) 99999-9999" required>
                 </div>
-                <p class="section-aside">Técnica, cuidado e acabamento<br>em cada detalhe.</p>
-            </div>
-            <div class="services-grid">
-                <article class="service-card">
-                    <div class="service-card-top"><span class="service-number">01</span><span class="service-symbol" aria-hidden="true">〽</span></div>
-                    <p class="service-category">O queridinho</p>
-                    <h3>Corte Degradê</h3>
-                    <p class="service-description">Transição suave nas laterais com acabamento preciso e personalizado.</p>
-                    <div class="service-card-bottom"><strong>R$ 25,00</strong><button type="button" class="service-book" data-service="Corte Degradê">Agendar <span aria-hidden="true">↗</span></button></div>
-                </article>
-                <article class="service-card">
-                    <div class="service-card-top"><span class="service-number">02</span><span class="service-symbol" aria-hidden="true">⌁</span></div>
-                    <p class="service-category">Visual marcante</p>
-                    <h3>Corte Fade</h3>
-                    <p class="service-description">Degradê moderno que valoriza o formato do rosto e o seu estilo.</p>
-                    <div class="service-card-bottom"><strong>R$ 25,00</strong><button type="button" class="service-book" data-service="Corte Fade">Agendar <span aria-hidden="true">↗</span></button></div>
-                </article>
-                <article class="service-card">
-                    <div class="service-card-top"><span class="service-number">03</span><span class="service-symbol" aria-hidden="true">✂</span></div>
-                    <p class="service-category">Clássico atemporal</p>
-                    <h3>Social Clássico</h3>
-                    <p class="service-description">Corte alinhado e elegante, feito na medida para qualquer ocasião.</p>
-                    <div class="service-card-bottom"><strong>R$ 20,00</strong><button type="button" class="service-book" data-service="Corte Social Clássico">Agendar <span aria-hidden="true">↗</span></button></div>
-                </article>
-                <article class="service-card">
-                    <div class="service-card-top"><span class="service-number">04</span><span class="service-symbol" aria-hidden="true">✦</span></div>
-                    <p class="service-category">Volume & atitude</p>
-                    <h3>Pompadour</h3>
-                    <p class="service-description">Volume e textura no topo para um visual cheio de personalidade.</p>
-                    <div class="service-card-bottom"><strong>R$ 35,00</strong><button type="button" class="service-book" data-service="Pompadour">Agendar <span aria-hidden="true">↗</span></button></div>
-                </article>
-                <article class="service-card">
-                    <div class="service-card-top"><span class="service-number">05</span><span class="service-symbol" aria-hidden="true">／</span></div>
-                    <p class="service-category">Detalhe que transforma</p>
-                    <h3>Razor Part</h3>
-                    <p class="service-description">Risca definida à navalha para dar personalidade e precisão ao corte.</p>
-                    <div class="service-card-bottom"><strong>R$ 35,00</strong><button type="button" class="service-book" data-service="Razor Part">Agendar <span aria-hidden="true">↗</span></button></div>
-                </article>
-                <article class="service-card">
-                    <div class="service-card-top"><span class="service-number">06</span><span class="service-symbol" aria-hidden="true">✧</span></div>
-                    <p class="service-category">Cuidado completo</p>
-                    <h3>Barba Completa</h3>
-                    <p class="service-description">Modelagem, toalha quente e navalha para renovar o visual da barba.</p>
-                    <div class="service-card-bottom"><strong>R$ 15,00</strong><button type="button" class="service-book" data-service="Barba Completa">Agendar <span aria-hidden="true">↗</span></button></div>
-                </article>
-            </div>
-        </section>
 
-        <section class="experience-banner">
-            <div class="experience-copy">
-                <p class="eyebrow"><span></span> A EXPERIÊNCIA GANGSTAR</p>
-                <h2>O ritual também<br>faz parte do <em>corte.</em></h2>
-                <p>Ambiente de verdade, conversa boa e atenção em cada detalhe. Aqui, você senta na cadeira e deixa o resto com a gente.</p>
-                <a href="#agendamento" class="text-link">Vem pra cadeira <span aria-hidden="true">→</span></a>
-            </div>
-            <div class="experience-tag"><span>SEU MOMENTO.</span><b>SEM ATALHOS.</b></div>
-        </section>
-
-        <section class="booking-section content-section" id="agendamento">
-            <div class="booking-intro">
-                <p class="eyebrow"><span></span> AGENDE SEM COMPLICAÇÃO</p>
-                <h2>Pronto para<br>dar aquele <em>upgrade?</em></h2>
-                <p>Preencha seus dados, escolha o serviço e reserve seu lugar na cadeira.</p>
-                <div class="booking-perk"><span aria-hidden="true">✦</span> Seu próximo visual começa aqui.</div>
-            </div>
-            <form class="booking-form">
-                <div class="form-heading"><span>01 — SEUS DADOS</span><span>02 — SEU HORÁRIO</span></div>
-                <div class="form-grid">
-                    <div class="form-field">
-                        <label for="clientName">Seu nome</label>
-                        <input type="text" id="clientName" placeholder="Como podemos te chamar?" autocomplete="name" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="clientPhone">WhatsApp / telefone</label>
-                        <input type="tel" id="clientPhone" placeholder="(11) 99999-9999" autocomplete="tel" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="barberSelect">Seu barbeiro</label>
-                        <select id="barberSelect" required>
-                            <option value="" selected>Selecione um profissional</option>
-                            <option value="Carlos">Carlos</option>
-                            <option value="Marcos">Marcos</option>
-                            <option value="Rafael">Rafael</option>
-                            <option value="Lucas">Lucas</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label for="styleSelect">Serviço</label>
-                        <select id="styleSelect" required>
-                            <option value="" selected>Escolha o serviço</option>
-                            <option value="Corte Degradê">Corte Degradê — R$ 25,00</option>
-                            <option value="Corte Fade">Corte Fade — R$ 25,00</option>
-                            <option value="Corte Social Clássico">Social Clássico — R$ 20,00</option>
-                            <option value="Pompadour">Pompadour — R$ 35,00</option>
-                            <option value="Razor Part">Razor Part — R$ 35,00</option>
-                            <option value="Barba Completa">Barba Completa — R$ 15,00</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label for="bookingDate">Data</label>
-                        <input type="date" id="bookingDate" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="bookingTime">Horário</label>
-                        <select id="bookingTime" required>
-                            <option value="" selected>Selecione um horário</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="14:00">14:00</option>
-                            <option value="15:00">15:00</option>
-                            <option value="16:00">16:00</option>
-                            <option value="17:00">17:00</option>
-                            <option value="18:00">18:00</option>
-                            <option value="19:00">19:00</option>
-                        </select>
-                    </div>
+                <!-- Seleção do Barbeiro (4 opções transformadas) -->
+                <div>
+                    <label for="barberSelect">Escolha o Barbeiro</label>
+                    <select id="barberSelect" required onchange="if(this.value.startsWith('ver_')) window.location.href=this.value.split('_')[1];">
+                        <option value="" disabled selected>Selecione seu Barbeiro</option>
+                        <option value="Carlos">Carlos</option>
+                        
+                        <option value="Marcos">Marcos</option>
+                        <option value="Rafael">Rafael</option>
+                    
+                        <option value="Lucas Souza">Lucas</option>
+                        
+                    </select>
                 </div>
-                <button class="button button-primary submit-button" type="submit">Confirmar agendamento <span aria-hidden="true">→</span></button>
+
+                <!-- Seleção do Estilo/Serviço -->
+                <div>
+                    <label for="styleSelect">Estilo de Corte</label>
+                    <select id="styleSelect" required>
+                        <option value="" disabled selected>Selecione o estilo</option>
+                        <option value="Corte Degradê">Corte Degradê</option>
+                        <option value="Corte Fade">Corte Fade</option>
+                        <option value="Corte Social Clássico">Corte Social</option>
+                        <option value="Pompadour">Pompadour</option>
+                        <option value="Razor Part">Razor Part</option>
+                        <option value="Barba Completa">Barba Completa</option>
+                    </select>
+                </div>
+
+                <!-- Data -->
+                <div>
+                    <label for="bookingDate">Data</label>
+                    <input type="date" id="bookingDate" required>
+                </div>
+
+                <!-- Horário -->
+                <div>
+                    <label for="bookingTime">Horário</label>
+                    <select id="bookingTime" required>
+                        <option value="" disabled selected>Selecione o horário</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                        <option value="18:00">18:00</option>
+                        <option value="19:00">19:00</option>
+                    </select>
+                </div>
+
+                <button type="submit">Confirmar Agendamento</button>
             </form>
         </section>
+
     </main>
 
-    <footer class="site-footer">
-        <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">G</span><span>GANG<span>STAR</span></span></a>
-        <p>Estilo, tradição e navalha afiada desde 2010.</p>
-        <small>© 2026 GANGSTAR. Todos os direitos reservados.</small>
+    <footer>
+        <p>&copy; 2026 GANGSTAR - Todos os direitos reservados.</p>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
-    <script src="config.js"></script>
     <script src="script.js"></script>
+    <script src="config.js"></script>
 </body>
 </html>
