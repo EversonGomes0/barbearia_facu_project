@@ -1,126 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GANGSTAR</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GANGSTAR – Barbearia</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark">
 
-    <header>
-        <h1>GANGSTAR</h1>
-        <p>Estilo, tradição e navalha afiada desde 2010</p>
-    </header>
+<header>
+  <button type="button" id="btnTema">🌙 Tema</button>
+  <h1>GANGSTAR</h1>
+  <p id="headerSub">Estilo, tradição e navalha afiada desde 2010</p>
+</header>
 
-    <main>
-        
-        <section>
-            <h2>Reserve seu Horário</h2>
-            <p>Escolha o seu profissional de preferência, o estilo que mais combina com você e o melhor momento para dar aquele tapa no visual.</p>
-        </section>
+<main>
 
-        <!-- Informações de Barbeiros e Estilos -->
-        <section>
-            <div>
-                <h3>Nossos Especialistas</h3>
-                <p style="font-size: 0.85rem; margin-bottom: 10px; color: var(--text-gray); font-style: italic;">Clique no nome para conhecer o perfil do profissional</p>
-                <ul>
-                    <li><a href="carlos.html">Carlos</a> (Especialista em degradê);</li>
-                    <li><a href="marcos.html">Marcos</a> (Especialista em cortes clássicos);</li>
-                    <li><a href="rafael.html">Rafael</a> (Cortes Modernos / Freestyles);</li>
-                    <li><a href="lucas.html">Lucas</a> (Especialista em Tesoura).</li>
-                </ul>
-            </div>
+  <!-- ===================== PÁGINA INICIAL ===================== -->
+  <div id="view-home">
+    <section>
+      <h2>Reserve seu Horário</h2>
+      <p>Escolha o seu profissional de preferência, o estilo que mais combina com você e o melhor momento para dar aquele tapa no visual.</p>
+    </section>
 
-            <div>
-                <h3>Estilos & Serviços</h3>
-                <ul>
-                    <li>Corte Degradê / Fade - R$ 25,00</li>
-                    <li>Social Clássico - R$ 20,00</li>
-                    <li>Pompadour / Razor Part - R$ 35,00</li>
-                    <li>Barba Completa (Navalha) - R$ 15,00</li>
-                </ul>
-            </div>
-        </section>
+    <section>
+      <h2>Nossos Especialistas</h2>
+      <p class="hint">Clique no cartão para escolher o barbeiro, ou em “Ver perfil” para conhecê-lo melhor</p>
+      <div class="barber-grid" id="barberCards"></div>
+    </section>
 
-        <!-- Formulário de Agendamento -->
-        <section>
-            <h2>Formulário de Agendamento</h2>
-            <form>
-                
-                <div>
-                    <label for="clientName">Seu Nome</label>
-                    <input type="text" id="clientName" placeholder="Ex: Ratão Júnior" required>
-                </div>
+    <section>
+      <h2>Estilos &amp; Serviços</h2>
+      <div class="box">
+        <ul class="service-list">
+          <li><span>Corte Degradê</span><span class="price">R$ 25,00</span><button type="button" class="service-book" data-service="Corte Degradê">Escolher</button></li>
+          <li><span>Corte Fade</span><span class="price">R$ 25,00</span><button type="button" class="service-book" data-service="Corte Fade">Escolher</button></li>
+          <li><span>Social Clássico</span><span class="price">R$ 20,00</span><button type="button" class="service-book" data-service="Corte Social Clássico">Escolher</button></li>
+          <li><span>Pompadour</span><span class="price">R$ 35,00</span><button type="button" class="service-book" data-service="Pompadour">Escolher</button></li>
+          <li><span>Razor Part</span><span class="price">R$ 35,00</span><button type="button" class="service-book" data-service="Razor Part">Escolher</button></li>
+          <li><span>Barba Completa (Navalha)</span><span class="price">R$ 15,00</span><button type="button" class="service-book" data-service="Barba Completa">Escolher</button></li>
+        </ul>
+      </div>
+    </section>
 
-                <div>
-                    <label for="clientPhone">WhatsApp / Telefone</label>
-                    <input type="tel" id="clientPhone" placeholder="Ex: (11) 99999-9999" required>
-                </div>
+    <section id="agendar">
+      <h2>Formulário de Agendamento</h2>
+      <form id="bookingForm" novalidate>
+        <div class="field">
+          <label for="clientName">Seu Nome</label>
+          <input type="text" id="clientName" placeholder="Ex: João Silva">
+        </div>
 
-                <!-- Seleção do Barbeiro (4 opções transformadas) -->
-                <div>
-                    <label for="barberSelect">Escolha o Barbeiro</label>
-                    <select id="barberSelect" required onchange="if(this.value.startsWith('ver_')) window.location.href=this.value.split('_')[1];">
-                        <option value="" disabled selected>Selecione seu Barbeiro</option>
-                        <option value="Carlos">Carlos</option>
-                        
-                        <option value="Marcos">Marcos</option>
-                        <option value="Rafael">Rafael</option>
-                    
-                        <option value="Lucas Souza">Lucas</option>
-                        
-                    </select>
-                </div>
+        <div class="field">
+          <label for="clientPhone">WhatsApp / Telefone</label>
+          <input type="tel" id="clientPhone" placeholder="Ex: (91) 99999-9999">
+        </div>
 
-                <!-- Seleção do Estilo/Serviço -->
-                <div>
-                    <label for="styleSelect">Estilo de Corte</label>
-                    <select id="styleSelect" required>
-                        <option value="" disabled selected>Selecione o estilo</option>
-                        <option value="Corte Degradê">Corte Degradê</option>
-                        <option value="Corte Fade">Corte Fade</option>
-                        <option value="Corte Social Clássico">Corte Social</option>
-                        <option value="Pompadour">Pompadour</option>
-                        <option value="Razor Part">Razor Part</option>
-                        <option value="Barba Completa">Barba Completa</option>
-                    </select>
-                </div>
+        <div class="field">
+          <label for="barberSelect">Escolha o Barbeiro</label>
+          <select id="barberSelect">
+            <option value="" disabled selected>Selecione seu Barbeiro</option>
+          </select>
+        </div>
 
-                <!-- Data -->
-                <div>
-                    <label for="bookingDate">Data</label>
-                    <input type="date" id="bookingDate" required>
-                </div>
+        <div class="field">
+          <label for="styleSelect">Estilo de Corte</label>
+          <select id="styleSelect">
+            <option value="" disabled selected>Selecione o estilo</option>
+            <option value="Corte Degradê">Corte Degradê</option>
+            <option value="Corte Fade">Corte Fade</option>
+            <option value="Corte Social Clássico">Corte Social</option>
+            <option value="Pompadour">Pompadour</option>
+            <option value="Razor Part">Razor Part</option>
+            <option value="Barba Completa">Barba Completa</option>
+          </select>
+        </div>
 
-                <!-- Horário -->
-                <div>
-                    <label for="bookingTime">Horário</label>
-                    <select id="bookingTime" required>
-                        <option value="" disabled selected>Selecione o horário</option>
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <option value="14:00">14:00</option>
-                        <option value="15:00">15:00</option>
-                        <option value="16:00">16:00</option>
-                        <option value="17:00">17:00</option>
-                        <option value="18:00">18:00</option>
-                        <option value="19:00">19:00</option>
-                    </select>
-                </div>
+        <div class="field">
+          <label for="bookingDate">Data</label>
+          <input type="date" id="bookingDate">
+        </div>
 
-                <button type="submit">Confirmar Agendamento</button>
-            </form>
-        </section>
+        <div class="field">
+          <label for="bookingTime">Horário</label>
+          <select id="bookingTime">
+            <option value="" disabled selected>Selecione o horário</option>
+          </select>
+        </div>
 
-    </main>
+        <button type="button" id="btnAgendar">Confirmar Agendamento</button>
+        <p id="mensagem" role="status"></p>
+      </form>
+    </section>
 
-    <footer>
-        <p>&copy; 2026 GANGSTAR - Todos os direitos reservados.</p>
-    </footer>
-    <script src="script.js"></script>
-    <script src="config.js"></script>
+    <section>
+      <h2>Meus Agendamentos</h2>
+      <ul id="listaAgendamentos"></ul>
+    </section>
+  </div>
+
+  <!-- ===================== PERFIL DO BARBEIRO ===================== -->
+  <div id="view-profile" hidden>
+    <div class="box">
+      <div class="profile-header">
+        <div class="profile-avatar" id="pAvatar" aria-hidden="true"></div>
+        <div class="profile-title">
+          <h2 id="pName"></h2>
+          <p id="pSpecialty"></p>
+        </div>
+      </div>
+
+      <div class="profile-bio">
+        <h3>Sobre o Profissional</h3>
+        <p id="pBio"></p>
+
+        <h3>Trabalhos Recentes</h3>
+        <div class="portfolio-grid">
+          <div class="portfolio-item">Corte 1</div>
+          <div class="portfolio-item">Corte 2</div>
+          <div class="portfolio-item">Corte 3</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="#home" class="btn-back btn-outline">← Voltar para os Agendamentos</a>
+        <a href="#agendar" class="btn-back" id="pBook">Agendar com este barbeiro</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 GANGSTAR – Todos os direitos reservados.</p>
+</footer>
+
+<!-- Ordem importa: Supabase → config → seu código -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
