@@ -1,4 +1,19 @@
 // =====================================================
+  // PARTE 0 – Conexão com o Supabase (config.js define GANGSTAR_CONFIG)
+  // =====================================================
+  const cfg = window.GANGSTAR_CONFIG || {};
+  const configurado =
+      !!window.supabase &&
+      !!cfg.SUPABASE_URL &&
+      !!cfg.SUPABASE_PUBLISHABLE_KEY &&
+      !cfg.SUPABASE_URL.includes("SEU-PROJETO") &&
+      !cfg.SUPABASE_PUBLISHABLE_KEY.includes("COLE_AQUI");
+
+  const db = configurado
+      ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_PUBLISHABLE_KEY)
+      : null;
+
+  // =====================================================
   // PARTE 1 – Dados e montagem dos elementos repetidos
   // (para editar bio ou especialidade, altere só aqui)
   // =====================================================
@@ -14,9 +29,10 @@
 
   for (const [id, b] of Object.entries(barbers)) {
     // Cartão clicável (usado pelo código do agendamento: .barber-select + data-barber)
+    // O valor é o nome CURTO ("Carlos"), que é o que o banco (Supabase) reconhece.
     const cartao = document.createElement("div");
     cartao.className = "barber-select";
-    cartao.setAttribute("data-barber", b.name);
+    cartao.setAttribute("data-barber", b.short);
     cartao.innerHTML = `
       <div class="mini-avatar">${b.short[0]}</div>
       <strong>${b.short}</strong>
@@ -24,7 +40,7 @@
       <a href="#${id}">Ver perfil →</a>`;
     $("barberCards").appendChild(cartao);
 
-    $("barberSelect").appendChild(new Option(b.short, b.name));
+    $("barberSelect").appendChild(new Option(b.short, b.short));
   }
   times.forEach(t => $("bookingTime").appendChild(new Option(t, t)));
 
@@ -33,7 +49,7 @@
   $("bookingDate").min = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
 
   // =====================================================
-  // PARTE 2 – AGENDAMENTO DA BARBEARIA (seu barber.js)
+  // PARTE 2 – AGENDAMENTO DA BARBEARIA (agora com Supabase)
   // =====================================================
   const nome = document.getElementById('clientName');
   const telefone = document.getElementById('clientPhone');
@@ -49,8 +65,16 @@
 
   const cartoesBarbeiro = document.querySelectorAll('.barber-select');
 
-  // Guarda os agendamentos feitos (no lugar do banco de dados)
-  let agendamentos = [];
+  const ERROS = {
+      nome_invalido: "Informe seu nome.",
+      telefone_invalido: "Informe um telefone válido com DDD.",
+      horario_invalido: "Horário inválido. Escolha um da lista.",
+      data_invalida: "Escolha uma data válida (até 90 dias à frente).",
+      horario_passou: "Esse horário já passou. Escolha outro.",
+      barbeiro_invalido: "Barbeiro não encontrado. Escolha outro profissional.",
+      servico_invalido: "Serviço não encontrado. Escolha outro.",
+      horario_ocupado: "Esse horário acabou de ser reservado. Escolha outro horário ou barbeiro."
+  };
 
   // 1. Escolher o barbeiro clicando no cartão
   cartoesBarbeiro.forEach((cartao) => {
@@ -77,23 +101,42 @@
       });
   });
 
-  // 3. Desativar horários que já foram marcados
-  const atualizarHorarios = () => {
+  // 3. Desativar horários já ocupados (consulta o banco)
+  let consultaAtual = 0;
+
+  const atualizarHorarios = async () => {
+      const id = ++consultaAtual;
+      let ocupados = [];
+
+      if (db && barbeiro.value && data.value) {
+          try {
+              const res = await db.rpc('horarios_ocupados', { p_barbeiro: barbeiro.value, p_data: data.value });
+              if (res.error) throw res.error;
+              ocupados = (res.data || []).map((linha) => linha.hora);
+          } catch (erro) {
+              console.error('Erro ao consultar horarios_ocupados:', erro);
+          }
+      }
+      if (id !== consultaAtual) return; // chegou resposta velha
+
+      const hojeStr = $("bookingDate").min;
+      const agora = new Date();
+      const agoraHHMM = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
+
       for (let i = 0; i < horario.options.length; i++) {
           const opcao = horario.options[i];
           if (opcao.value === '') continue; // mantém o "Selecione o horário" sempre desativado
 
-          opcao.disabled = false;
+          if (!opcao.dataset.label) opcao.dataset.label = opcao.textContent;
 
-          // Procura se esse horário já está ocupado para esse barbeiro e data
-          for (let j = 0; j < agendamentos.length; j++) {
-              const ag = agendamentos[j];
-              if (ag.barbeiro === barbeiro.value && ag.data === data.value && ag.horario === opcao.value) {
-                  opcao.disabled = true;
-              }
-          }
+          let motivo = '';
+          if (data.value === hojeStr && opcao.value <= agoraHHMM) motivo = ' (já passou)';
+          else if (ocupados.includes(opcao.value)) motivo = ' (ocupado)';
+
+          opcao.disabled = motivo !== '';
+          opcao.textContent = opcao.dataset.label + motivo;
       }
-      // Se o horário escolhido acabou de ficar ocupado, desmarca
+      // Se o horário escolhido ficou ocupado, desmarca
       if (horario.selectedOptions[0] && horario.selectedOptions[0].disabled) {
           horario.value = '';
       }
@@ -106,17 +149,26 @@
   });
   data.addEventListener('change', atualizarHorarios);
 
-  // 4. Agendar (valida os campos e mostra o resumo)
-  btnAgendar.addEventListener('click', () => {
+  if (!configurado) {
+      mensagem.innerText = '⚠️ Banco de dados não configurado. Preencha o config.js.';
+  }
+
+  // 4. Agendar (valida os campos e grava no Supabase)
+  btnAgendar.addEventListener('click', async () => {
       const nomeVal = nome.value.trim();
-      const telVal = telefone.value.trim();
+      const telDigitos = telefone.value.replace(/\D/g, '');
+
+      if (!db) {
+          mensagem.innerText = '❌ Banco de dados não configurado (config.js).';
+          return;
+      }
 
       if (nomeVal.length < 2) {
           mensagem.innerText = '❌ Informe seu nome.';
           return;
       }
 
-      if (telVal.length < 10) {
+      if (telDigitos.length < 10 || telDigitos.length > 11) {
           mensagem.innerText = '❌ Informe um telefone válido com DDD.';
           return;
       }
@@ -131,35 +183,60 @@
           return;
       }
 
-      // Guarda o agendamento
-      agendamentos.push({
+      // Guarda o que foi escolhido antes de limpar os campos
+      const dadosDeste = {
           barbeiro: barbeiro.value,
+          servico: estilo.value,
+          servicoTexto: estilo.options[estilo.selectedIndex].text,
           data: data.value,
           horario: horario.value
-      });
+      };
 
-      mensagem.innerText = `✅ Agendamento confirmado! ${nomeVal}, te esperamos às ${horario.value}.`;
+      btnAgendar.disabled = true;
 
-      // 5. Mostra o agendamento na lista, com botão para cancelar
-      const novoLi = document.createElement('li');
-      const [ano, mes, dia] = data.value.split('-');
-
-      novoLi.innerHTML = `
-      <span>${nomeVal} - ${barbeiro.value} - ${estilo.options[estilo.selectedIndex].text} - ${dia}/${mes}/${ano} às ${horario.value}</span>
-      <button type="button" class="btn-deletar" title="Cancelar agendamento">❌</button>
-      `;
-
-      // Cancelar: remove da tela e libera o horário
-      const dadosDeste = { barbeiro: barbeiro.value, data: data.value, horario: horario.value };
-
-      novoLi.querySelector('.btn-deletar').addEventListener('click', () => {
-          novoLi.remove();
-          agendamentos = agendamentos.filter((ag) => {
-              return !(ag.barbeiro === dadosDeste.barbeiro && ag.data === dadosDeste.data && ag.horario === dadosDeste.horario);
+      try {
+          const res = await db.rpc('criar_agendamento', {
+              p_nome: nomeVal,
+              p_telefone: telDigitos,
+              p_barbeiro: dadosDeste.barbeiro,
+              p_servico: dadosDeste.servico,
+              p_data: dadosDeste.data,
+              p_horario: dadosDeste.horario
           });
-          atualizarHorarios();
-      });
+          if (res.error) throw res.error;
 
+          if (!res.data || !res.data.ok) {
+              const codigo = res.data && res.data.erro;
+              mensagem.innerText = '❌ ' + (ERROS[codigo] || 'Não foi possível concluir o agendamento. Tente novamente.');
+              atualizarHorarios();
+              return;
+          }
+      } catch (erro) {
+          console.error('Erro ao criar agendamento:', erro);
+          mensagem.innerText = '❌ Falha de conexão com o servidor. Tente de novo.';
+          return;
+      } finally {
+          btnAgendar.disabled = false;
+      }
+
+      mensagem.innerText = `✅ Agendamento confirmado! ${nomeVal}, te esperamos às ${dadosDeste.horario}.`;
+
+      // 5. Mostra o agendamento na lista da tela
+      const novoLi = document.createElement('li');
+      const [ano, mes, dia] = dadosDeste.data.split('-');
+
+      const resumo = document.createElement('span');
+      resumo.textContent = `${nomeVal} - ${dadosDeste.barbeiro} - ${dadosDeste.servicoTexto} - ${dia}/${mes}/${ano} às ${dadosDeste.horario}`;
+
+      const btnRemover = document.createElement('button');
+      btnRemover.type = 'button';
+      btnRemover.className = 'btn-deletar';
+      btnRemover.title = 'Remover da lista';
+      btnRemover.textContent = '❌';
+      // Só tira da tela: o horário continua reservado no banco
+      btnRemover.addEventListener('click', () => novoLi.remove());
+
+      novoLi.append(resumo, btnRemover);
       listaAgendamentos.appendChild(novoLi);
 
       // Limpa os campos
@@ -198,7 +275,7 @@
           $("pAvatar").textContent = b.short[0];
           // "Agendar com este barbeiro" seleciona o cartão correspondente
           $("pBook").onclick = () => {
-              const c = document.querySelector(`.barber-select[data-barber="${b.name}"]`);
+              const c = document.querySelector(`.barber-select[data-barber="${b.short}"]`);
               if (c) c.click();
           };
           document.title = `${b.name} – GANGSTAR`;
