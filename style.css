@@ -111,9 +111,8 @@ ul {
 }
 
 .mini-avatar {
-  width: 72px;
-  height: 72px;
-  overflow: hidden;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 8px auto;
   border-radius: 50%;
   background-color: #0b0b0b;
@@ -122,7 +121,7 @@ ul {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  line-height: 68px;
+  line-height: 56px;
 }
 
 .barber-select strong,
@@ -245,8 +244,6 @@ button {
 .profile-avatar {
   width: 110px;
   height: 110px;
-  overflow: hidden;
-  object-fit: cover;
   border-radius: 50%;
   background-color: #0b0b0b;
   color: #b08a2e;
@@ -283,17 +280,6 @@ button {
   text-align: center;
   line-height: 150px;
   color: #888888;
-  overflow: hidden;
-}
-
-/* Fotos dentro dos avatares e do portfólio */
-.mini-avatar img,
-.profile-avatar img,
-.portfolio-item img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .actions {
