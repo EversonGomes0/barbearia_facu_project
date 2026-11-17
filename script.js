@@ -19,10 +19,10 @@
   // As fotos ficam na pasta fotos/ (ajuste o nome do arquivo se for diferente)
   // =====================================================
   const barbers = {
-    carlos: { name: "Carlos Magno",    short: "Carlos", foto: "fotos/carlos_gangster_01.png", list: "Especialista em degradê",          specialty: "Especialista em Degradê",                      bio: "Em aberto" },
-    marcos: { name: "Marcos Mota",     short: "Marcos", foto: "fotos/marcos_gangster_02.png", list: "Especialista em cortes clássicos", specialty: "Especialista em Cortes Clássicos",             bio: "Em aberto" },
-    rafael: { name: "Rafael Da Vinci", short: "Rafael", foto: "fotos/rafael_gangster_03.png", list: "Cortes modernos / freestyles",     specialty: "Especialista em Cortes Modernos e Freestyles", bio: "Em aberto" },
-    lucas:  { name: "Lucas Cordeiro",  short: "Lucas",  foto: "fotos/lucas_gangster_04.png",  list: "Especialista em tesoura",          specialty: "Especialista em Tesoura",                      bio: "Em aberto" }
+    carlos: { name: "Carlos Magno",    short: "Carlos", foto: "fotos/carlos_gangster_01.png", cortes: ["photos/corte1_carlos.jpg", "photos/corte2_carlos.jpg", "photos/corte3_carlos.jpg"], list: "Especialista em degradê",          specialty: "Especialista em Degradê",                      bio: "Carlos Magno é um profissional altamente qualificado em degradê, com ampla experiência no setor de beleza. Sua paixão por cortes modernos e inovadores o torna um dos melhores barbeiros da região." },
+    marcos: { name: "Marcos Mota",     short: "Marcos", foto: "fotos/marcos_gangster_02.png", cortes: ["photos/corte1_marcos.jpg", "photos/corte2_marcos.jpg", "photos/corte3_marcos.jpg"], list: "Especialista em cortes clássicos", specialty: "Especialista em Cortes Clássicos",             bio: "Em aberto" },
+    rafael: { name: "Rafael Da Vinci", short: "Rafael", foto: "fotos/rafael_gangster_03.png", cortes: ["photos/corte1_rafael.jpg", "photos/corte2_rafael.jpg", "photos/corte3_rafael.jpg"], list: "Cortes modernos / freestyles",     specialty: "Especialista em Cortes Modernos e Freestyles", bio: "Em aberto" },
+    lucas:  { name: "Lucas Cordeiro",  short: "Lucas",  foto: "fotos/lucas_gangster_04.png", cortes: ["photos/corte1_lucas.jpg", "photos/corte2_lucas.jpg", "photos/corte3_lucas.jpg"],  list: "Especialista em tesoura",          specialty: "Especialista em Tesoura",                      bio: "Em aberto" }
   };
   const times = ["09:00","10:00","11:00","14:00","15:00","16:00","17:00","18:00","19:00"];
 
@@ -274,6 +274,10 @@
           $("pSpecialty").textContent = b.specialty;
           $("pBio").textContent = b.bio;
           $("pAvatar").innerHTML = `<img src="${b.foto}" alt="${b.name}">`;
+          // Trabalhos recentes (fotos da pasta photos/)
+          $("pPortfolio").innerHTML = (b.cortes || [])
+              .map((src, i) => `<img src="${src}" alt="Corte ${i + 1} de ${b.short}" class="portfolio-item">`)
+              .join("");
           // "Agendar com este barbeiro" seleciona o cartão correspondente
           $("pBook").onclick = () => {
               const c = document.querySelector(`.barber-select[data-barber="${b.short}"]`);

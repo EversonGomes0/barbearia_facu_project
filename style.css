@@ -296,6 +296,13 @@ button {
   color: #888888;
 }
 
+/* Fotos dos cortes (pasta photos/) */
+img.portfolio-item {
+  object-fit: cover;
+  display: block;
+  border-style: solid;
+}
+
 .actions {
   display: flex;
   gap: 12px;
