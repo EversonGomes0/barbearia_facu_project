@@ -288,5 +288,70 @@
           if (hash === "agendar") $("agendar").scrollIntoView();
       }
   }
+--- a/script.js	2026-11-17 00:18:14.711749035 +0000
++++ b/script.js	2026-11-17 00:18:29.497150846 +0000
+@@ -18,15 +18,27 @@
+   // (para editar bio ou especialidade, altere só aqui)
+   // =====================================================
+   const barbers = {
+-    carlos: { name: "Carlos Magno",    short: "Carlos", list: "Especialista em degradê",          specialty: "Especialista em Degradê",                      bio: "Em aberto" },
+-    marcos: { name: "Marcos Mota",     short: "Marcos", list: "Especialista em cortes clássicos", specialty: "Especialista em Cortes Clássicos",             bio: "Em aberto" },
+-    rafael: { name: "Rafael Da Vinci", short: "Rafael", list: "Cortes modernos / freestyles",     specialty: "Especialista em Cortes Modernos e Freestyles", bio: "Em aberto" },
+-    lucas:  { name: "Lucas Cordeiro",  short: "Lucas",  list: "Especialista em tesoura",          specialty: "Especialista em Tesoura",                      bio: "Em aberto" }
++    carlos: { name: "Carlos Magno",    short: "Carlos", list: "Especialista em degradê",          specialty: "Especialista em Degradê",                      bio: "Em aberto", photo: "fotos/Carlos_gangster_01.png", pos: "55% 20%", cuts: ["photos/corte1_carlos.jpg", "photos/corte2_carlos.jpg", "photos/corte3_carlos.jpg"] },
++    marcos: { name: "Marcos Mota",     short: "Marcos", list: "Especialista em cortes clássicos", specialty: "Especialista em Cortes Clássicos",             bio: "Em aberto", photo: "fotos/Marcos_gangster_02.png", pos: "50% 18%", cuts: ["photos/corte1_marcos.jpg", "photos/corte2_marcos.jpg", "photos/corte3_marcos.jpg"] },
++    rafael: { name: "Rafael Da Vinci", short: "Rafael", list: "Cortes modernos / freestyles",     specialty: "Especialista em Cortes Modernos e Freestyles", bio: "Em aberto", photo: "fotos/Rafael_gangster_03.png", pos: "56% 20%", cuts: ["photos/corte1_rafael.jpg", "photos/corte2_rafael.jpg", "photos/corte3_rafael.jpg"] },
++    lucas:  { name: "Lucas Cordeiro",  short: "Lucas",  list: "Especialista em tesoura",          specialty: "Especialista em Tesoura",                      bio: "Em aberto", photo: "fotos/Lucas_ gangster_04.png", pos: "45% 22%", cuts: ["photos/corte1_lucas.jpg", "photos/corte2_lucas.jpg", "photos/corte3_lucas.jpg"] }
+   };
+   const times = ["09:00","10:00","11:00","14:00","15:00","16:00","17:00","18:00","19:00"];
+ 
+   const $ = id => document.getElementById(id);
+ 
++  // Coloca uma foto dentro de um elemento. Se a imagem não carregar, mostra um texto no lugar.
++  // (encodeURI: o arquivo "Lucas_ gangster_04.png" tem espaço no nome)
++  function montarFoto(el, src, alt, pos, textoReserva) {
++      const img = new Image();
++      img.alt = alt;
++      if (pos) img.style.objectPosition = pos;
++      img.onerror = () => { el.textContent = textoReserva; };
++      img.src = encodeURI(src);
++      el.textContent = "";
++      el.appendChild(img);
++  }
++
+   for (const [id, b] of Object.entries(barbers)) {
+     // Cartão clicável (usado pelo código do agendamento: .barber-select + data-barber)
+     // O valor é o nome CURTO ("Carlos"), que é o que o banco (Supabase) reconhece.
+@@ -34,10 +46,11 @@
+     cartao.className = "barber-select";
+     cartao.setAttribute("data-barber", b.short);
+     cartao.innerHTML = `
+-      <div class="mini-avatar">${b.short[0]}</div>
++      <div class="mini-avatar"></div>
+       <strong>${b.short}</strong>
+       <small>${b.list}</small>
+       <a href="#${id}">Ver perfil →</a>`;
++    montarFoto(cartao.querySelector(".mini-avatar"), b.photo, b.name, b.pos, b.short[0]);
+     $("barberCards").appendChild(cartao);
+ 
+     $("barberSelect").appendChild(new Option(b.short, b.short));
+@@ -272,7 +285,16 @@
+           $("pName").textContent = b.name;
+           $("pSpecialty").textContent = b.specialty;
+           $("pBio").textContent = b.bio;
+-          $("pAvatar").textContent = b.short[0];
++          montarFoto($("pAvatar"), b.photo, b.name, b.pos, b.short[0]);
++
++          // Trabalhos recentes: fotos dos cortes (pasta photos/)
++          $("portfolio").innerHTML = "";
++          b.cuts.forEach((src, i) => {
++              const item = document.createElement("div");
++              item.className = "portfolio-item";
++              montarFoto(item, src, `Corte ${i + 1} de ${b.short}`, "", `Corte ${i + 1}`);
++              $("portfolio").appendChild(item);
++          });
+           // "Agendar com este barbeiro" seleciona o cartão correspondente
+           $("pBook").onclick = () => {
+               const c = document.querySelector(`.barber-select[data-barber="${b.short}"]`);
   window.addEventListener("hashchange", route);
   route();
