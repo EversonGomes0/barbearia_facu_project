@@ -19,10 +19,10 @@
   // As fotos ficam na pasta fotos/ (ajuste o nome do arquivo se for diferente)
   // =====================================================
   const barbers = {
-    carlos: { name: "Carlos Magno",    short: "Carlos", foto: "fotos/Carlos_gangster_01.png", list: "Especialista em degradê",          specialty: "Especialista em Degradê",                      bio: "Em aberto" },
-    marcos: { name: "Marcos Mota",     short: "Marcos", foto: "fotos/Marcos_gangster_02.png", list: "Especialista em cortes clássicos", specialty: "Especialista em Cortes Clássicos",             bio: "Em aberto" },
-    rafael: { name: "Rafael Da Vinci", short: "Rafael", foto: "fotos/Rafael_gangster_03.png", list: "Cortes modernos / freestyles",     specialty: "Especialista em Cortes Modernos e Freestyles", bio: "Em aberto" },
-    lucas:  { name: "Lucas Cordeiro",  short: "Lucas",  foto: "fotos/Lucas_gangster_04.png",  list: "Especialista em tesoura",          specialty: "Especialista em Tesoura",                      bio: "Em aberto" }
+    carlos: { name: "Carlos Magno",    short: "Carlos", foto: "fotos/carlos_gangster_01.png", list: "Especialista em degradê",          specialty: "Especialista em Degradê",                      bio: "Em aberto" },
+    marcos: { name: "Marcos Mota",     short: "Marcos", foto: "fotos/marcos_gangster_02.png", list: "Especialista em cortes clássicos", specialty: "Especialista em Cortes Clássicos",             bio: "Em aberto" },
+    rafael: { name: "Rafael Da Vinci", short: "Rafael", foto: "fotos/rafael_gangster_03.png", list: "Cortes modernos / freestyles",     specialty: "Especialista em Cortes Modernos e Freestyles", bio: "Em aberto" },
+    lucas:  { name: "Lucas Cordeiro",  short: "Lucas",  foto: "fotos/lucas_gangster_04.png",  list: "Especialista em tesoura",          specialty: "Especialista em Tesoura",                      bio: "Em aberto" }
   };
   const times = ["09:00","10:00","11:00","14:00","15:00","16:00","17:00","18:00","19:00"];
 
