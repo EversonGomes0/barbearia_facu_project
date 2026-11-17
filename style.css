@@ -254,6 +254,20 @@ button {
   line-height: 110px;
 }
 
+/* Fotos dos barbeiros (pasta fotos/) preenchem o círculo sem deformar */
+.mini-avatar,
+.profile-avatar {
+  overflow: hidden;
+}
+
+.mini-avatar img,
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .profile-title h2 {
   margin: 0;
 }
